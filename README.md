@@ -38,7 +38,7 @@
 
 ## 📊 GitHub Stats
 
-![boboaung1337's Stats](https://github-readme-stats.vercel.app/api?username=boboaung1337&theme=vue-dark&show_icons=true&hide_border=true&count_private=true)
+![boboaung1337's Stats](https://badgen.net/github/contributors/boboaung1337/boboaung1337?color=2affb6)](https://github.com/boboaung1337/boboaung1337)
 ![boboaung1337's Streak](https://github-readme-streak-stats.herokuapp.com/?user=boboaung1337&theme=vue-dark&hide_border=true)
 
 ---
