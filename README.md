@@ -1,16 +1,1 @@
-# 👋 Hey, I'm Khaing Myo Lin (boboaung1337)
-
-🔐 **Elite Hacker | HTB Player | CPTS Certified | BSc (Cybersecurity)**
-
-My full interactive profile is rendered here 👉 **[Click to view my Hacker Profile](https://github.com/boboaung1337/boboaung1337/blob/main/index.html)**
-
----
-
-### 🚀 Quick Links
-- 🔥 **HTB:** [019c3c91-9303-7374-a10e-22d32ab523fa](https://profile.hackthebox.com/profile/019c3c91-9303-7374-a10e-22d32ab523fa)
-- 💼 **LinkedIn:** [khaingmyolin1337](https://www.linkedin.com/in/khaingmyolin1337/)
-- 🐦 **X:** [@KhaingMyoLin8](https://x.com/KhaingMyoLin8)
-
----
-
-*Psst... the real profile is the HTML one. It's got all the matrix effects and glitch text.* 😉
+[![Hacker Profile](https://img.shields.io/badge/VIEW-FULL_PROFILE-2affb6?style=for-the-badge&logo=hackthebox&logoColor=white&labelColor=0a0f0f)](https://github.com/boboaung1337/boboaung1337/blob/main/index.html)
