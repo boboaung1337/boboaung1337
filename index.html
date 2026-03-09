@@ -1,2 +1,466 @@
-test
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khaing Myo Lin · boboaung1337</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, #0a0f0f 0%, #1a2a2a 100%);
+            color: #b7ffd6;
+            line-height: 1.6;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(10, 20, 20, 0.7);
+            backdrop-filter: blur(10px);
+            border: 2px solid #2affb6;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 0 40px rgba(42, 255, 182, 0.3),
+                        inset 0 0 20px rgba(42, 255, 182, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Matrix rain effect in background */
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(42, 255, 182, 0.03) 0px,
+                rgba(0, 0, 0, 0) 2px,
+                rgba(42, 255, 182, 0.03) 4px
+            );
+            pointer-events: none;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100%); }
+        }
+
+        .terminal-line {
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+            animation: glitch 4s infinite;
+        }
+
+        .prompt {
+            color: #ff2a6d;
+            font-weight: 700;
+            text-shadow: 0 0 10px #ff2a6d;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .prompt-success {
+            color: #2affb6;
+            text-shadow: 0 0 10px #2affb6;
+        }
+
+        .command {
+            color: #ffd166;
+            text-shadow: 0 0 8px #ffd166;
+        }
+
+        .output {
+            margin-left: 2rem;
+            margin-top: 0.5rem;
+            padding: 1rem;
+            border-left: 3px solid #2affb6;
+            background: linear-gradient(90deg, rgba(42, 255, 182, 0.1) 0%, rgba(42, 255, 182, 0) 100%);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight {
+            color: #ff2a6d;
+            font-weight: 700;
+            background: rgba(255, 42, 109, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            border: 1px solid #ff2a6d;
+            box-shadow: 0 0 10px rgba(255, 42, 109, 0.3);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            margin: 0.2rem;
+            background: rgba(42, 255, 182, 0.1);
+            border: 1px solid #2affb6;
+            border-radius: 20px;
+            color: #2affb6;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(42, 255, 182, 0.2);
+        }
+
+        .badge:hover {
+            background: #2affb6;
+            color: #0a0f0f;
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px #2affb6;
+            cursor: default;
+        }
+
+        .badge-danger {
+            border-color: #ff2a6d;
+            color: #ff2a6d;
+            box-shadow: 0 0 10px rgba(255, 42, 109, 0.2);
+        }
+
+        .badge-danger:hover {
+            background: #ff2a6d;
+            color: #0a0f0f;
+            box-shadow: 0 0 20px #ff2a6d;
+        }
+
+        .badge-warning {
+            border-color: #ffd166;
+            color: #ffd166;
+            box-shadow: 0 0 10px rgba(255, 209, 102, 0.2);
+        }
+
+        .badge-warning:hover {
+            background: #ffd166;
+            color: #0a0f0f;
+            box-shadow: 0 0 20px #ffd166;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .link-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid #2affb6;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(42, 255, 182, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .link-card:hover::before {
+            left: 100%;
+        }
+
+        .link-card:hover {
+            transform: scale(1.05);
+            border-color: #ff2a6d;
+            box-shadow: 0 0 30px rgba(255, 42, 109, 0.3);
+        }
+
+        .link-card a {
+            color: #2affb6;
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+        }
+
+        .link-card:hover a {
+            color: #ff2a6d;
+        }
+
+        .glitch-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            position: relative;
+            text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                        -0.025em -0.05em 0 rgba(0, 255, 255, 0.75),
+                        0.025em 0.05em 0 rgba(0, 255, 0, 0.75);
+            animation: glitch 500ms infinite;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+        }
+
+        @keyframes glitch {
+            0% {
+                text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                            -0.05em -0.025em 0 rgba(0, 255, 255, 0.75),
+                            -0.025em 0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+            14% {
+                text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                            -0.05em -0.025em 0 rgba(0, 255, 255, 0.75),
+                            -0.025em 0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+            15% {
+                text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+                            0.025em 0.025em 0 rgba(0, 255, 255, 0.75),
+                            -0.05em -0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+            49% {
+                text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+                            0.025em 0.025em 0 rgba(0, 255, 255, 0.75),
+                            -0.05em -0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+            50% {
+                text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+                            0.05em 0 0 rgba(0, 255, 255, 0.75),
+                            0 -0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+            99% {
+                text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+                            0.05em 0 0 rgba(0, 255, 255, 0.75),
+                            0 -0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+            100% {
+                text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75),
+                            -0.025em -0.025em 0 rgba(0, 255, 255, 0.75),
+                            -0.025em -0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 1rem 0;
+            color: #ffd166;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border-bottom: 2px solid #ff2a6d;
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .cursor-blink {
+            animation: blink 1s infinite;
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background: #2affb6;
+            margin-left: 5px;
+            vertical-align: middle;
+            box-shadow: 0 0 10px #2affb6;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .status-bar {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #2affb6;
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .status-led {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #2affb6;
+            box-shadow: 0 0 10px #2affb6;
+            animation: pulse 2s infinite;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            opacity: 0.1;
+            background: repeating-linear-gradient(
+                45deg,
+                #2affb6 0px,
+                #2affb6 2px,
+                transparent 2px,
+                transparent 10px
+            );
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg"></div>
+    <div class="container">
+        <div class="status-bar">
+            <span><span class="status-led"></span> SYSTEM STATUS: ACTIVE</span>
+            <span>⚡ ACCESS LEVEL: ELITE</span>
+            <span>🔐 ENCRYPTION: AES-256</span>
+        </div>
+
+        <div class="glitch-text">>_ KHAING MYO LIN</div>
+
+        <div class="terminal-line">
+            <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]─[</span><span class="command">~</span><span class="prompt">]</span>
+            <span class="prompt">└─$</span> <span class="command">whoami</span>
+            <div class="output">
+                <span style="font-size: 1.3rem; color: #ff2a6d;">Khaing Myo Lin</span><br>
+                <span class="badge">boboaung1337</span>
+                <span class="badge badge-warning">BSc (Cybersecurity)</span>
+                <span class="badge badge-danger">Elite Hacker</span>
+                <span class="badge">HTB Player</span>
+                <span class="badge badge-danger">CPTS Certified</span>
+            </div>
+        </div>
+
+        <div class="terminal-line">
+            <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]─[</span><span class="command">~/info</span><span class="prompt">]</span>
+            <span class="prompt">└─$</span> <span class="command">cat bio.txt</span>
+            <div class="output">
+                ⚡ <span style="color: #ffd166;">TL;DR:</span> I break things to fix them. My focus is on penetrating web applications, 
+                enterprise networks, and mobile infrastructures. I turn vulnerabilities into insights.
+            </div>
+        </div>
+
+        <div class="terminal-line">
+            <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]─[</span><span class="command">~/credentials</span><span class="prompt">]</span>
+            <span class="prompt">└─$</span> <span class="command">ls -la</span>
+            <div class="output">
+                <div style="margin-bottom: 1rem;">
+                    <span class="section-title">🎓 EDUCATION</span><br>
+                    <span class="badge badge-warning">BSc (Cybersecurity)</span>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <span class="section-title">🏆 CERTIFICATIONS</span><br>
+                    <span class="badge badge-danger">HTB CPTS (Jan 2026)</span>
+                </div>
+                
+                <div>
+                    <span class="section-title">🏅 ACHIEVEMENTS</span><br>
+                    <span class="badge">Mythical Pro Lab (Nov 2025)</span>
+                    <span class="badge">Puppet Pro Lab (Nov 2025)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="terminal-line">
+            <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]─[</span><span class="command">~/weapons</span><span class="prompt">]</span>
+            <span class="prompt">└─$</span> <span class="command">ls -la /arsenal/</span>
+            <div class="output">
+                <div class="grid">
+                    <div>
+                        <span class="section-title">🎯 CORE SKILLS</span><br>
+                        <span class="badge badge-danger">SQL Injection</span>
+                        <span class="badge badge-danger">LFI/RFI</span>
+                        <span class="badge badge-danger">Active Directory</span>
+                        <span class="badge badge-danger">Network Pentesting</span>
+                    </div>
+                    <div>
+                        <span class="section-title">⚔️ WEAPONS</span><br>
+                        <span class="badge badge-warning">ADModule</span>
+                        <span class="badge badge-warning">Evilginx</span>
+                        <span class="badge badge-warning">Metasploit</span>
+                        <span class="badge badge-warning">Burp Suite</span>
+                        <span class="badge badge-warning">Nmap</span>
+                    </div>
+                    <div>
+                        <span class="section-title">💻 LANGUAGES</span><br>
+                        <span class="badge">PHP</span>
+                        <span class="badge">Python</span>
+                        <span class="badge">Java</span>
+                        <span class="badge">JavaScript</span>
+                        <span class="badge">SQL</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="terminal-line">
+            <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]─[</span><span class="command">~/interests</span><span class="prompt">]</span>
+            <span class="prompt">└─$</span> <span class="command">cat focus_areas.txt</span>
+            <div class="output">
+                <span class="badge badge-danger">Web Application Pentesting</span>
+                <span class="badge badge-danger">Enterprise Network</span>
+                <span class="badge badge-danger">Mobile Security</span>
+                <span class="badge badge-warning">Automation Scripting</span>
+                <span class="badge badge-warning">Reconnaissance</span>
+            </div>
+        </div>
+
+        <div class="terminal-line">
+            <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]─[</span><span class="command">~/connections</span><span class="prompt">]</span>
+            <span class="prompt">└─$</span> <span class="command">cat links.txt</span>
+            <div class="output">
+                <div class="grid">
+                    <div class="link-card">
+                        <a href="https://profile.hackthebox.com/profile/019c3c91-9303-7374-a10e-22d32ab523fa" target="_blank">
+                            🔥 HTB PROFILE<br>
+                            <small>Check the stats</small>
+                        </a>
+                    </div>
+                    <div class="link-card">
+                        <a href="https://www.linkedin.com/in/khaingmyolin1337/" target="_blank">
+                            💼 LINKEDIN<br>
+                            <small>Professional</small>
+                        </a>
+                    </div>
+                    <div class="link-card">
+                        <a href="https://x.com/KhaingMyoLin8" target="_blank">
+                            🐦 X (TWITTER)<br>
+                            <small>@KhaingMyoLin8</small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="terminal-line">
+            <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]─[</span><span class="command">~/system</span><span class="prompt">]</span>
+            <span class="prompt">└─$</span> <span class="command">echo "Access Granted. Now move along."</span>
+            <div class="output" style="border-left-color: #ff2a6d;">
+                <span style="color: #ff2a6d; font-size: 1.2rem;">Access Granted. Now move along.</span>
+                <span class="cursor-blink"></span>
+            </div>
+        </div>
+
+        <div style="text-align: right; margin-top: 2rem; color: #2affb6; font-size: 0.8rem; opacity: 0.5;">
+            [SYSTEM: SECURE] [SESSION: 0x1337] [USER: ELITE]
+        </div>
+    </div>
+</body>
+</html>
