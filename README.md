@@ -12,10 +12,25 @@
 
 ---
 
+## 🛠️ Featured Tools
+
+<div align="center">
+
+| Tool | Description | Status |
+|------|-------------|--------|
+| 🔑 **SSH Key Fixer** | Auto-fix broken SSH keys with `\n` and `\/` issues | [![FIX SSH](https://img.shields.io/badge/🚀_LAUNCH_TOOL-2affb6?style=flat-square&logo=github&logoColor=black)](https://boboaung1337.github.io/SSH-KEY-FIXER/SSH_KEY_FIXER.html) |
+
+</div>
+
+> **🔧 SSH Key Fixer**: One-click tool to fix formatting issues in SSH keys. Paste your broken key with `\n` escapes and get a properly formatted PEM file instantly.
+
+---
+
 ## 🎯 Quick Access
 
 | Platform | Link | Status |
 |----------|------|--------|
+| 🔑 **SSH Key Fixer** | [boboaung1337.github.io/SSH-KEY-FIXER](https://boboaung1337.github.io/SSH-KEY-FIXER/SSH_KEY_FIXER.html) | 🟢 Live Tool |
 | 🌐 **Hacker Profile UI** | [boboaung1337.github.io/boboaung1337](https://boboaung1337.github.io/boboaung1337/) | 🟢 Live & Interactive |
 | 🔴 **HTB Profile** | [019c3c91-9303-7374-a10e-22d32ab523fa](https://profile.hackthebox.com/profile/019c3c91-9303-7374-a10e-22d32ab523fa) | 🟢 CPTS Certified |
 | 💼 **LinkedIn** | [khaingmyolin1337](https://www.linkedin.com/in/khaingmyolin1337/) | 🟢 Connect with me |
@@ -36,13 +51,11 @@
 
 ---
 
-## 📊 GitHub Stats
+## 📦 More Tools
 
-![boboaung1337's Stats](https://badgen.net/github/contributors/boboaung1337/boboaung1337?color=2affb6)
-![boboaung1337's Streak](https://github-readme-streak-stats.herokuapp.com/?user=boboaung1337&theme=vue-dark&hide_border=true)
-
----
-
-<div align="center">
-  <sub>🔐 Access Granted • System Secure • Session: 0x1337</sub>
-</div>
+```bash
+# SSH Key Fixer - Quick Usage
+1. Go to: https://boboaung1337.github.io/SSH-KEY-FIXER/SSH_KEY_FIXER.html
+2. Paste your broken SSH key (with \n and \/ escapes)
+3. Click "FIX KEY NOW"
+4. Copy the fixed key
