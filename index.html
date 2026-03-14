@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Khaing Myo Lin · boboaung1337</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,27 +14,30 @@
         }
 
         body {
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', monospace;
             background: linear-gradient(135deg, #0a0f0f 0%, #1a2a2a 100%);
             color: #b7ffd6;
-            line-height: 1.6;
-            padding: 1rem;
+            line-height: 1.8;
+            padding: 2rem;
             min-height: 100vh;
         }
 
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            background: rgba(10, 20, 20, 0.9);
+            background: rgba(10, 20, 20, 0.7);
+            backdrop-filter: blur(10px);
             border: 2px solid #2affb6;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 0 30px rgba(42, 255, 182, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 0 40px rgba(42, 255, 182, 0.3),
+                        inset 0 0 20px rgba(42, 255, 182, 0.1);
             position: relative;
+            overflow: hidden;
         }
 
-        /* Simplified background effect - less CPU intensive */
-        .container::after {
+        /* Matrix rain effect in background */
+        .container::before {
             content: "";
             position: absolute;
             top: 0;
@@ -41,15 +46,21 @@
             bottom: 0;
             background: repeating-linear-gradient(
                 0deg,
-                rgba(42, 255, 182, 0.02) 0px,
-                transparent 2px
+                rgba(42, 255, 182, 0.03) 0px,
+                rgba(0, 0, 0, 0) 2px,
+                rgba(42, 255, 182, 0.03) 4px
             );
             pointer-events: none;
-            opacity: 0.5;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100%); }
         }
 
         .terminal-line {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             position: relative;
             z-index: 1;
         }
@@ -58,72 +69,123 @@
             margin-bottom: 0.2rem;
             white-space: nowrap;
             overflow-x: auto;
-            padding-bottom: 0.1rem;
-            scrollbar-width: thin;
+            padding-bottom: 0.2rem;
+        }
+
+        .prompt-line:last-of-type {
+            margin-bottom: 0.5rem;
         }
 
         .prompt {
             color: #ff2a6d;
-            font-weight: bold;
+            font-weight: 700;
+            text-shadow: 0 0 10px #ff2a6d;
             display: inline-block;
         }
 
         .prompt-success {
             color: #2affb6;
+            text-shadow: 0 0 10px #2affb6;
         }
 
         .command {
             color: #ffd166;
+            text-shadow: 0 0 8px #ffd166;
         }
 
         .output {
-            margin-left: 1.2rem;
-            margin-top: 0.5rem;
-            margin-bottom: 0.8rem;
-            padding: 1rem;
+            margin-left: 1.5rem;
+            margin-top: 0.8rem;
+            margin-bottom: 1rem;
+            padding: 1.2rem;
             border-left: 3px solid #2affb6;
-            background: rgba(42, 255, 182, 0.05);
-            border-radius: 0 6px 6px 0;
-            line-height: 1.8;
+            background: linear-gradient(90deg, rgba(42, 255, 182, 0.1) 0%, rgba(42, 255, 182, 0) 100%);
+            border-radius: 0 8px 8px 0;
+            line-height: 2;
         }
 
-        /* Simplified badges - removed animations */
         .badge {
             display: inline-block;
-            padding: 0.2rem 0.8rem;
+            padding: 0.3rem 1rem;
             margin: 0.2rem;
             background: rgba(42, 255, 182, 0.1);
             border: 1px solid #2affb6;
-            border-radius: 16px;
+            border-radius: 20px;
             color: #2affb6;
-            font-size: 0.85rem;
-            transition: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(42, 255, 182, 0.2);
+        }
+
+        .badge:hover {
+            background: #2affb6;
+            color: #0a0f0f;
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px #2affb6;
+            cursor: default;
         }
 
         .badge-danger {
             border-color: #ff2a6d;
             color: #ff2a6d;
+            box-shadow: 0 0 10px rgba(255, 42, 109, 0.2);
+        }
+
+        .badge-danger:hover {
+            background: #ff2a6d;
+            color: #0a0f0f;
+            box-shadow: 0 0 20px #ff2a6d;
         }
 
         .badge-warning {
             border-color: #ffd166;
             color: #ffd166;
+            box-shadow: 0 0 10px rgba(255, 209, 102, 0.2);
+        }
+
+        .badge-warning:hover {
+            background: #ffd166;
+            color: #0a0f0f;
+            box-shadow: 0 0 20px #ffd166;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
             margin: 1rem 0;
         }
 
-        /* Simplified link cards - removed animations */
         .link-card {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid #2affb6;
-            border-radius: 6px;
-            padding: 1rem;
+            border-radius: 8px;
+            padding: 1.2rem;
             text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(42, 255, 182, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .link-card:hover::before {
+            left: 100%;
+        }
+
+        .link-card:hover {
+            transform: scale(1.05);
+            border-color: #ff2a6d;
+            box-shadow: 0 0 30px rgba(255, 42, 109, 0.3);
         }
 
         .link-card a {
@@ -131,89 +193,149 @@
             text-decoration: none;
             font-weight: 500;
             display: block;
-            font-size: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .link-card:hover a {
+            color: #ff2a6d;
         }
 
         .link-card small {
             display: block;
-            margin-top: 0.3rem;
+            margin-top: 0.5rem;
             opacity: 0.7;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: #b7ffd6;
         }
 
-        /* Simplified text effect - removed complex animations */
         .glitch-text {
-            font-size: 2rem;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
             text-transform: uppercase;
-            color: #2affb6;
-            text-shadow: 2px 2px #ff2a6d, -2px -2px #ffd166;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-            letter-spacing: 1px;
+            position: relative;
+            text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                        -0.025em -0.05em 0 rgba(0, 255, 255, 0.75),
+                        0.025em 0.05em 0 rgba(0, 255, 0, 0.75);
+            animation: glitch 500ms infinite;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            line-height: 1.3;
+        }
+
+        @keyframes glitch {
+            0% {
+                text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                            -0.05em -0.025em 0 rgba(0, 255, 255, 0.75),
+                            -0.025em 0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+            14% {
+                text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                            -0.05em -0.025em 0 rgba(0, 255, 255, 0.75),
+                            -0.025em 0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+            15% {
+                text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+                            0.025em 0.025em 0 rgba(0, 255, 255, 0.75),
+                            -0.05em -0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+            49% {
+                text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+                            0.025em 0.025em 0 rgba(0, 255, 255, 0.75),
+                            -0.05em -0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+            50% {
+                text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+                            0.05em 0 0 rgba(0, 255, 255, 0.75),
+                            0 -0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+            99% {
+                text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+                            0.05em 0 0 rgba(0, 255, 255, 0.75),
+                            0 -0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+            100% {
+                text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75),
+                            -0.025em -0.025em 0 rgba(0, 255, 255, 0.75),
+                            -0.025em -0.05em 0 rgba(0, 255, 0, 0.75);
+            }
         }
 
         .section-title {
-            font-size: 1.1rem;
-            margin: 1.2rem 0 0.8rem 0;
+            font-size: 1.2rem;
+            margin: 1.5rem 0 1rem 0;
             color: #ffd166;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             border-bottom: 2px solid #ff2a6d;
-            padding-bottom: 0.3rem;
+            padding-bottom: 0.5rem;
             display: inline-block;
         }
 
-        /* Simplified cursor - less CPU intensive */
         .cursor-blink {
+            animation: blink 1s infinite;
             display: inline-block;
-            width: 8px;
-            height: 16px;
+            width: 10px;
+            height: 20px;
             background: #2affb6;
-            margin-left: 4px;
+            margin-left: 5px;
             vertical-align: middle;
-            animation: simple-blink 1.5s step-end infinite;
+            box-shadow: 0 0 10px #2affb6;
         }
 
-        @keyframes simple-blink {
+        @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
 
         .status-bar {
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.5);
             border: 1px solid #2affb6;
             border-radius: 4px;
-            padding: 0.6rem 1.2rem;
-            margin-bottom: 1.5rem;
+            padding: 0.8rem 1.5rem;
+            margin-bottom: 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             flex-wrap: wrap;
-            gap: 0.8rem;
+            gap: 1rem;
         }
 
         .status-led {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background: #2affb6;
+            box-shadow: 0 0 10px #2affb6;
+            animation: pulse 2s infinite;
             display: inline-block;
-            margin-right: 4px;
-            animation: simple-pulse 2s step-end infinite;
+            margin-right: 5px;
         }
 
-        @keyframes simple-pulse {
+        @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
         }
 
-        /* Removed matrix-bg - too heavy */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            opacity: 0.1;
+            background: repeating-linear-gradient(
+                45deg,
+                #2affb6 0px,
+                #2affb6 2px,
+                transparent 2px,
+                transparent 10px
+            );
+        }
 
         .skill-group {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.8rem;
         }
 
         .skill-group:last-child {
@@ -222,50 +344,55 @@
 
         .skill-group strong {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             color: #ffd166;
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
 
         .bullet-item {
-            margin-bottom: 0.3rem;
-            padding-left: 0.8rem;
+            margin-bottom: 0.5rem;
+            padding-left: 1rem;
             border-left: 2px solid #ff2a6d;
         }
 
         .footer {
             text-align: right;
-            margin-top: 2rem;
+            margin-top: 2.5rem;
             color: #2affb6;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             opacity: 0.5;
             border-top: 1px solid rgba(42, 255, 182, 0.2);
-            padding-top: 1rem;
+            padding-top: 1.5rem;
         }
 
-        /* Optimized scrollbar */
+        /* Scrollbar styling */
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
         }
 
         ::-webkit-scrollbar-track {
-            background: rgba(42, 255, 182, 0.05);
+            background: rgba(42, 255, 182, 0.1);
         }
 
         ::-webkit-scrollbar-thumb {
             background: #2affb6;
-            border-radius: 3px;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff2a6d;
         }
     </style>
 </head>
 <body>
+    <div class="matrix-bg"></div>
     <div class="container">
         <!-- Status Bar -->
         <div class="status-bar">
-            <span><span class="status-led"></span> SYSTEM: ACTIVE</span>
-            <span>⚡ LEVEL: ELITE</span>
-            <span>🔐 ENC: AES-256</span>
+            <span><span class="status-led"></span> SYSTEM STATUS: ACTIVE</span>
+            <span>⚡ ACCESS LEVEL: ELITE</span>
+            <span>🔐 ENCRYPTION: AES-256</span>
         </div>
 
         <!-- Glitch Title -->
@@ -280,13 +407,13 @@
                 <span class="prompt">└─$</span> <span class="command">whoami</span>
             </div>
             <div class="output">
-                <div style="font-size: 1.3rem; color: #ff2a6d; margin-bottom: 0.5rem;">Khaing Myo Lin</div>
+                <div style="font-size: 1.5rem; color: #ff2a6d; margin-bottom: 0.8rem;">Khaing Myo Lin</div>
                 <div>
                     <span class="badge">boboaung1337</span>
                     <span class="badge badge-warning">BSc (Cybersecurity)</span>
                     <span class="badge badge-danger">Elite Hacker</span>
                     <span class="badge">HTB Player</span>
-                    <span class="badge badge-danger">CPTS</span>
+                    <span class="badge badge-danger">CPTS Certified</span>
                 </div>
             </div>
         </div>
@@ -300,7 +427,7 @@
                 <span class="prompt">└─$</span> <span class="command">cat bio.txt</span>
             </div>
             <div class="output">
-                ⚡ <span style="color: #ffd166;">TL;DR:</span> I break things to fix them. Focus on web apps, networks, and mobile.
+                ⚡ <span style="color: #ffd166;">TL;DR:</span> I break things to fix them. My focus is on penetrating web applications, enterprise networks, and mobile infrastructures. I turn vulnerabilities into insights.
             </div>
         </div>
 
@@ -319,14 +446,14 @@
                 </div>
                 
                 <div class="skill-group">
-                    <strong>🏆 CERT</strong>
+                    <strong>🏆 CERTIFICATIONS</strong>
                     <div class="bullet-item">HTB CPTS (Jan 2026)</div>
                 </div>
                 
                 <div class="skill-group">
-                    <strong>🏅 LABS</strong>
-                    <div class="bullet-item">Mythical Pro Lab</div>
-                    <div class="bullet-item">Puppet Pro Lab</div>
+                    <strong>🏅 ACHIEVEMENTS</strong>
+                    <div class="bullet-item">Mythical Pro Lab (Nov 2025)</div>
+                    <div class="bullet-item">Puppet Pro Lab (Nov 2025)</div>
                 </div>
             </div>
         </div>
@@ -337,37 +464,37 @@
                 <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]─[</span><span class="command">~/weapons</span><span class="prompt">]</span>
             </div>
             <div class="prompt-line">
-                <span class="prompt">└─$</span> <span class="command">ls -la</span>
+                <span class="prompt">└─$</span> <span class="command">ls -la /arsenal/</span>
             </div>
             <div class="output">
                 <div class="skill-group">
-                    <strong>🎯 SKILLS</strong>
+                    <strong>🎯 CORE SKILLS</strong>
                     <div>
-                        <span class="badge badge-danger">SQLi</span>
+                        <span class="badge badge-danger">SQL Injection</span>
                         <span class="badge badge-danger">LFI/RFI</span>
-                        <span class="badge badge-danger">AD</span>
-                        <span class="badge badge-danger">Network</span>
+                        <span class="badge badge-danger">Active Directory</span>
+                        <span class="badge badge-danger">Network Pentesting</span>
                     </div>
                 </div>
                 
                 <div class="skill-group">
-                    <strong>⚔️ TOOLS</strong>
+                    <strong>⚔️ WEAPONS</strong>
                     <div>
                         <span class="badge badge-warning">ADModule</span>
                         <span class="badge badge-warning">Evilginx</span>
-                        <span class="badge badge-warning">MSF</span>
-                        <span class="badge badge-warning">Burp</span>
+                        <span class="badge badge-warning">Metasploit</span>
+                        <span class="badge badge-warning">Burp Suite</span>
                         <span class="badge badge-warning">Nmap</span>
                     </div>
                 </div>
                 
                 <div class="skill-group">
-                    <strong>💻 LANG</strong>
+                    <strong>💻 LANGUAGES</strong>
                     <div>
                         <span class="badge">PHP</span>
                         <span class="badge">Python</span>
                         <span class="badge">Java</span>
-                        <span class="badge">JS</span>
+                        <span class="badge">JavaScript</span>
                         <span class="badge">SQL</span>
                     </div>
                 </div>
@@ -380,21 +507,21 @@
                 <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]─[</span><span class="command">~/interests</span><span class="prompt">]</span>
             </div>
             <div class="prompt-line">
-                <span class="prompt">└─$</span> <span class="command">cat focus.txt</span>
+                <span class="prompt">└─$</span> <span class="command">cat focus_areas.txt</span>
             </div>
             <div class="output">
-                <span class="badge badge-danger">Web App</span>
-                <span class="badge badge-danger">Enterprise</span>
-                <span class="badge badge-danger">Mobile</span>
-                <span class="badge badge-warning">Automation</span>
-                <span class="badge badge-warning">Recon</span>
+                <span class="badge badge-danger">Web Application Pentesting</span>
+                <span class="badge badge-danger">Enterprise Network</span>
+                <span class="badge badge-danger">Mobile Security</span>
+                <span class="badge badge-warning">Automation Scripting</span>
+                <span class="badge badge-warning">Reconnaissance</span>
             </div>
         </div>
 
         <!-- links.txt -->
         <div class="terminal-line">
             <div class="prompt-line">
-                <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]─[</span><span class="command">~/links</span><span class="prompt">]</span>
+                <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]─[</span><span class="command">~/connections</span><span class="prompt">]</span>
             </div>
             <div class="prompt-line">
                 <span class="prompt">└─$</span> <span class="command">cat links.txt</span>
@@ -402,20 +529,20 @@
             <div class="output">
                 <div class="grid">
                     <div class="link-card">
-                        <a href="https://profile.hackthebox.com/profile/019c3c91-9303-7374-a10e-22d32ab523fa" target="_blank" rel="noopener">
-                            🔥 HTB
+                        <a href="https://profile.hackthebox.com/profile/019c3c91-9303-7374-a10e-22d32ab523fa" target="_blank">
+                            🔥 HTB PROFILE
                         </a>
-                        <small>Profile</small>
+                        <small>Check the stats</small>
                     </div>
                     <div class="link-card">
-                        <a href="https://www.linkedin.com/in/khaingmyolin1337/" target="_blank" rel="noopener">
-                            💼 LI
+                        <a href="https://www.linkedin.com/in/khaingmyolin1337/" target="_blank">
+                            💼 LINKEDIN
                         </a>
-                        <small>LinkedIn</small>
+                        <small>Professional</small>
                     </div>
                     <div class="link-card">
-                        <a href="https://x.com/KhaingMyoLin8" target="_blank" rel="noopener">
-                            🐦 X
+                        <a href="https://x.com/KhaingMyoLin8" target="_blank">
+                            🐦 X (TWITTER)
                         </a>
                         <small>@KhaingMyoLin8</small>
                     </div>
@@ -429,17 +556,17 @@
                 <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]─[</span><span class="command">~/system</span><span class="prompt">]</span>
             </div>
             <div class="prompt-line">
-                <span class="prompt">└─$</span> <span class="command">echo "Access Granted."</span>
+                <span class="prompt">└─$</span> <span class="command">echo "Access Granted. Now move along."</span>
             </div>
             <div class="output" style="border-left-color: #ff2a6d;">
-                <span style="color: #ff2a6d;">Access Granted.</span>
+                <span style="color: #ff2a6d; font-size: 1.2rem;">Access Granted. Now move along.</span>
                 <span class="cursor-blink"></span>
             </div>
         </div>
 
         <!-- footer -->
         <div class="footer">
-            [SECURE] [0x1337] [ELITE]
+            [SYSTEM: SECURE] [SESSION: 0x1337] [USER: ELITE]
         </div>
     </div>
 </body>
