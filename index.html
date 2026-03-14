@@ -1,108 +1,577 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KML</title>
+    <title>Khaing Myo Lin · boboaung1337</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
-        /* ABSOLUTE MINIMAL - nothing but text and borders */
-        body {
-            background: #000;
-            color: #0f0;
-            font-family: monospace;
-            font-size: 14px;
-            line-height: 1.3;
-            margin: 5px;
-            padding: 0;
+        :root {
+            --bg-dark: #050510;
+            --neon-cyan: #00ffff;
+            --neon-magenta: #ff00ff;
+            --neon-green: #39ff14;
+            --cyber-orange: #ffb300;
+            --glass: rgba(10, 10, 30, 0.8);
         }
-        .c { max-width: 900px; margin: 0 auto; }
-        .p { color: #f0f; }
-        .s { color: #0f0; }
-        .cmd { color: #ff0; }
-        .out { margin-left: 15px; padding: 5px 0 5px 10px; border-left: 1px solid #0f0; }
-        .b { display: inline-block; border: 1px solid #0f0; padding: 1px 5px; margin: 1px; font-size: 12px; }
-        .br { border-color: #f0f; color: #f0f; }
-        .by { border-color: #ff0; color: #ff0; }
-        .grid { display: flex; gap: 5px; flex-wrap: wrap; }
-        .card { border: 1px solid #0f0; padding: 5px; }
-        .card a { color: #0f0; text-decoration: none; }
-        hr { border: none; border-top: 1px solid #0f0; margin: 10px 0; opacity: 0.3; }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg-dark);
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- Sidebar Navigation --- */
+        #sidebar {
+            width: 320px;
+            background: rgba(0, 0, 0, 0.5);
+            border-right: 1px solid var(--neon-magenta);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 5px 0 15px rgba(255, 0, 255, 0.2);
+            z-index: 10;
+            backdrop-filter: blur(5px);
+        }
+
+        .cyber-title {
+            font-size: 24px;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan);
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 2px;
+            line-height: 1.3;
+        }
+
+        .cyber-subtitle {
+            color: var(--neon-magenta);
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: 'JetBrains Mono', monospace;
+            opacity: 0.8;
+        }
+
+        #searchBox {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 12px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 20px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        #searchBox:focus { box-shadow: 0 0 15px var(--neon-cyan); }
+
+        #buttons {
+            overflow-y: auto;
+            flex-grow: 1;
+            padding-right: 5px;
+        }
+
+        #buttons::-webkit-scrollbar { width: 5px; }
+        #buttons::-webkit-scrollbar-thumb { background: var(--neon-magenta); }
+
+        .cyber-btn {
+            width: 100%;
+            background: transparent;
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            color: #ccc;
+            padding: 15px 12px;
+            margin-bottom: 10px;
+            text-align: left;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 13px;
+            transition: 0.3s;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cyber-btn:hover, .cyber-btn.active {
+            border-color: var(--neon-cyan);
+            color: white;
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+        }
+
+        .badge-count {
+            float: right;
+            color: var(--neon-magenta);
+            font-size: 11px;
+        }
+
+        /* --- Main Content Area --- */
+        #content-wrapper {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 30px;
+            background: radial-gradient(circle at top right, rgba(255,0,255,0.05), transparent);
+        }
+
+        .main-header {
+            color: var(--neon-magenta);
+            text-shadow: 0 0 15px var(--neon-magenta);
+            font-size: 28px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--neon-magenta);
+            padding-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .status-bar {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 4px;
+            padding: 12px 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .status-led {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--neon-green);
+            display: inline-block;
+            margin-right: 5px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .sub-header {
+            color: var(--neon-cyan);
+            font-size: 18px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .sub-header::before {
+            content: ">";
+            margin-right: 10px;
+            color: var(--neon-magenta);
+        }
+
+        .note-command {
+            background: #0a0a1a;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-left: 4px solid var(--neon-green);
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--neon-green);
+            font-size: 14px;
+            position: relative;
+            cursor: pointer;
+            transition: 0.3s;
+            white-space: pre-wrap;
+            border-radius: 0 4px 4px 0;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .note-command:hover {
+            background: #101025;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.2);
+        }
+
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(255, 0, 255, 0.1);
+            border: 1px solid var(--neon-magenta);
+            border-radius: 20px;
+            color: white;
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .badge-cyan {
+            border-color: var(--neon-cyan);
+            background: rgba(0, 255, 255, 0.1);
+        }
+
+        .badge-green {
+            border-color: var(--neon-green);
+            background: rgba(57, 255, 20, 0.1);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .link-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .link-card:hover {
+            border-color: var(--neon-magenta);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .link-card a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            display: block;
+        }
+
+        .link-card small {
+            display: block;
+            margin-top: 8px;
+            color: #888;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .bullet-item {
+            margin-bottom: 8px;
+            padding-left: 15px;
+            border-left: 2px solid var(--neon-magenta);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+        }
+
+        /* --- Toast Notification --- */
+        #toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--neon-green);
+            color: black;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: bold;
+            display: none;
+            z-index: 100;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .show { display: block !important; animation: slideIn 0.3s; }
+
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+        .cyber-footer {
+            margin-top: 40px;
+            font-size: 12px;
+            opacity: 0.5;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            border-top: 1px solid rgba(255, 0, 255, 0.2);
+            padding-top: 20px;
+        }
+
+        .cursor-blink {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background: var(--neon-green);
+            margin-left: 5px;
+            vertical-align: middle;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
     </style>
 </head>
 <body>
-<div class="c">
 
-<!-- header -->
-<div><span class="p">┌──[</span><span class="s">boboaung1337</span><span class="p">]</span></div>
-<div><span class="p">└─$</span> <span class="cmd">whoami</span></div>
-<div class="out">
-    <div style="color:#f0f">Khaing Myo Lin</div>
-    <div>
-        <span class="b">boboaung1337</span>
-        <span class="b by">BSc</span>
-        <span class="b br">CPTS</span>
-        <span class="b">HTB</span>
-    </div>
-</div>
+    <nav id="sidebar">
+        <h1 class="cyber-title">>_ KHAING MYO LIN</h1>
+        <div class="cyber-subtitle">boboaung1337 · CPTS</div>
+        <input type="text" id="searchBox" placeholder="FILTER SECTIONS..." onkeyup="searchSections()">
+        <div id="buttons">
+            <!-- Will be populated by JS -->
+        </div>
+    </nav>
 
-<!-- bio -->
-<div><span class="p">┌──[</span><span class="s">boboaung1337</span><span class="p">]</span></div>
-<div><span class="p">└─$</span> <span class="cmd">bio</span></div>
-<div class="out">Web/Network/Mobile Pentester</div>
+    <main id="content-wrapper">
+        <div id="note">
+            <div style="color: #666; text-align: center; margin-top: 20vh; font-family: 'JetBrains Mono';">
+                <span style="color: var(--neon-magenta);">[SELECT A MODULE FROM THE SIDEBAR]</span>
+            </div>
+        </div>
+        <footer class="cyber-footer">
+            PENTEST-PORTFOLIO: [boboaung1337] // 2026
+        </footer>
+    </main>
 
-<!-- education -->
-<div><span class="p">┌──[</span><span class="s">boboaung1337</span><span class="p">]</span></div>
-<div><span class="p">└─$</span> <span class="cmd">ls -la</span></div>
-<div class="out">
-    <div>▶ BSc Cybersecurity</div>
-    <div>▶ HTB CPTS (2026)</div>
-    <div>▶ Mythical Pro Lab</div>
-    <div>▶ Puppet Pro Lab</div>
-</div>
+    <div id="toast">📋 COMMAND COPIED TO CLIPBOARD</div>
 
-<!-- skills -->
-<div><span class="p">┌──[</span><span class="s">boboaung1337</span><span class="p">]</span></div>
-<div><span class="p">└─$</span> <span class="cmd">skills</span></div>
-<div class="out">
-    <div>
-        <span class="b br">SQLi</span>
-        <span class="b br">LFI</span>
-        <span class="b br">AD</span>
-        <span class="b br">Network</span>
-    </div>
-    <div style="margin-top:5px">
-        <span class="b by">Burp</span>
-        <span class="b by">Nmap</span>
-        <span class="b by">MSF</span>
-    </div>
-    <div style="margin-top:5px">
-        <span class="b">Python</span>
-        <span class="b">PHP</span>
-        <span class="b">JS</span>
-    </div>
-</div>
+    <script>
+// Portfolio data structure
+const portfolioData = [
+    {
+        button_name: "whoami.exe",
+        note_header: "PROFILE: whoami",
+        contents: [
+            {
+                sub_header: "IDENTITY",
+                content: btoa("Khaing Myo Lin\nHandle: boboaung1337\nRole: Security Researcher / Pentester\nStatus: Elite HTB Player\nCert: CPTS (Jan 2026)")
+            },
+            {
+                sub_header: "BIO",
+                content: btoa("⚡ I break things to fix them. Focus on penetrating web applications, enterprise networks, and mobile infrastructures. I turn vulnerabilities into insights.")
+            },
+            {
+                sub_header: "STATUS",
+                content: btoa("SYSTEM: ACTIVE\nACCESS: ELITE\nENCRYPTION: AES-256\nSESSION: 0x1337")
+            }
+        ]
+    },
+    {
+        button_name: "credentials.exe",
+        note_header: "CREDENTIALS & ACHIEVEMENTS",
+        contents: [
+            {
+                sub_header: "EDUCATION",
+                content: btoa("▶ BSc (Cybersecurity)")
+            },
+            {
+                sub_header: "CERTIFICATIONS",
+                content: btoa("▶ HTB CPTS (Jan 2026)")
+            },
+            {
+                sub_header: "LAB COMPLETIONS",
+                content: btoa("▶ Mythical Pro Lab (Nov 2025)\n▶ Puppet Pro Lab (Nov 2025)")
+            }
+        ]
+    },
+    {
+        button_name: "arsenal.exe",
+        note_header: "WEAPONS & SKILLS",
+        contents: [
+            {
+                sub_header: "CORE SKILLS",
+                content: btoa("SQL Injection | LFI/RFI | Active Directory | Network Pentesting | Web App Security | Mobile Security")
+            },
+            {
+                sub_header: "TOOLS",
+                content: btoa("ADModule | Evilginx | Metasploit | Burp Suite | Nmap | Wireshark | BloodHound | Cobalt Strike")
+            },
+            {
+                sub_header: "LANGUAGES",
+                content: btoa("PHP | Python | Java | JavaScript | SQL | Bash | PowerShell")
+            }
+        ]
+    },
+    {
+        button_name: "focus.exe",
+        note_header: "FOCUS AREAS",
+        contents: [
+            {
+                sub_header: "PRIMARY",
+                content: btoa("• Web Application Pentesting\n• Enterprise Network Security\n• Mobile Security Assessment")
+            },
+            {
+                sub_header: "SECONDARY",
+                content: btoa("• Automation Scripting\n• Reconnaissance\n• Red Teaming")
+            }
+        ]
+    },
+    {
+        button_name: "connections.exe",
+        note_header: "NETWORK CONNECTIONS",
+        contents: [
+            {
+                sub_header: "EXTERNAL LINKS",
+                content: btoa("HTB: https://profile.hackthebox.com/profile/019c3c91-9303-7374-a10e-22d32ab523fa\nLinkedIn: https://www.linkedin.com/in/khaingmyolin1337/\nX: https://x.com/KhaingMyoLin8")
+            }
+        ]
+    },
+    {
+        button_name: "system.exe",
+        note_header: "SYSTEM INFO",
+        contents: [
+            {
+                sub_header: "ACCESS",
+                content: btoa("Access Granted. Now move along.")
+            }
+        ]
+    }
+];
 
-<!-- links -->
-<div><span class="p">┌──[</span><span class="s">boboaung1337</span><span class="p">]</span></div>
-<div><span class="p">└─$</span> <span class="cmd">links</span></div>
-<div class="out">
-    <div class="grid">
-        <div class="card"><a href="https://profile.hackthebox.com/profile/019c3c91-9303-7374-a10e-22d32ab523fa">HTB</a></div>
-        <div class="card"><a href="https://www.linkedin.com/in/khaingmyolin1337/">LI</a></div>
-        <div class="card"><a href="https://x.com/KhaingMyoLin8">X</a></div>
-    </div>
-</div>
+let currentNote = null;
 
-<!-- exit -->
-<div><span class="p">┌──[</span><span class="s">boboaung1337</span><span class="p">]</span></div>
-<div><span class="p">└─$</span> <span class="cmd">exit</span></div>
-<div class="out" style="border-left-color:#f0f">
-    <span style="color:#f0f">Access Granted</span>
-</div>
+function generateButtons() {
+    const buttonDiv = document.getElementById('buttons');
+    buttonDiv.innerHTML = '';
+    
+    portfolioData.forEach((note, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'cyber-btn';
+        btn.innerText = note.button_name;
+        btn.onclick = (e) => {
+            document.querySelectorAll('.cyber-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            showNote(note);
+        };
+        buttonDiv.appendChild(btn);
+    });
+    
+    // Auto-select first note
+    if (portfolioData.length > 0) {
+        setTimeout(() => {
+            document.querySelectorAll('.cyber-btn')[0]?.click();
+        }, 100);
+    }
+}
 
-<hr>
-<div style="text-align:right; opacity:0.3; font-size:11px">[0x1337]</div>
+function showNote(note) {
+    currentNote = note;
+    renderView(note.contents, note.note_header);
+}
 
-</div>
+function renderView(contents, header, filter = '') {
+    const noteDiv = document.getElementById('note');
+    let html = `<h2 class='main-header'>${header || 'PAYLOADS'}</h2>`;
+    
+    // Add status bar for first note only
+    if (header === "PROFILE: whoami") {
+        html += `
+            <div class='status-bar'>
+                <span><span class='status-led'></span> SYSTEM: ACTIVE</span>
+                <span>⚡ LEVEL: ELITE</span>
+                <span>🔐 ENC: AES-256</span>
+            </div>
+        `;
+    }
+
+    contents.forEach(section => {
+        const decodedText = section.content ? atob(section.content) : '';
+        
+        if (filter === '' || 
+            section.sub_header?.toLowerCase().includes(filter) || 
+            decodedText.toLowerCase().includes(filter)) {
+            
+            html += `<h3 class='sub-header'>${section.sub_header || ''}</h3>`;
+            
+            // Special handling for connections to create cards
+            if (section.sub_header === "EXTERNAL LINKS") {
+                html += `<div class='grid'>`;
+                const links = decodedText.split('\n');
+                links.forEach(link => {
+                    const [site, url] = link.split(': ');
+                    if (url) {
+                        html += `
+                            <div class='link-card'>
+                                <a href='${url}' target='_blank' rel='noopener'>${site}</a>
+                                <small>${url.replace('https://', '')}</small>
+                            </div>
+                        `;
+                    }
+                });
+                html += `</div>`;
+            } 
+            // For skills with multiple items, create badges
+            else if (section.sub_header === "CORE SKILLS" || section.sub_header === "TOOLS" || section.sub_header === "LANGUAGES") {
+                html += `<div class='badge-container'>`;
+                const items = decodedText.split('|').map(item => item.trim());
+                items.forEach(item => {
+                    const badgeClass = section.sub_header === "CORE SKILLS" ? 'badge-cyan' : 
+                                      section.sub_header === "TOOLS" ? 'badge' : 'badge-green';
+                    html += `<span class='badge ${badgeClass}'>${item}</span>`;
+                });
+                html += `</div>`;
+            }
+            // For bullet-point style content
+            else if (decodedText.includes('▶') || decodedText.includes('•')) {
+                html += `<div class='note-command' onclick='copyToClipboard(this)'>`;
+                const lines = decodedText.split('\n');
+                lines.forEach(line => {
+                    if (line.trim()) {
+                        html += `<div class='bullet-item'>${escapeHTML(line)}</div>`;
+                    }
+                });
+                html += `</div>`;
+            }
+            // Default display
+            else {
+                html += `<div class='note-command' onclick='copyToClipboard(this)'>${escapeHTML(decodedText)}</div>`;
+            }
+            
+            // Add cursor blink for system note
+            if (section.sub_header === "ACCESS") {
+                html += `<span class='cursor-blink'></span>`;
+            }
+        }
+    });
+    
+    noteDiv.innerHTML = html;
+}
+
+function copyToClipboard(el) {
+    // Extract text content, removing any HTML
+    const text = el.innerText || el.textContent;
+    navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+        
+        // Visual feedback
+        el.style.borderLeftColor = '#ffffff';
+        setTimeout(() => el.style.borderLeftColor = '#39ff14', 300);
+    }).catch(err => {
+        console.error('Copy failed:', err);
+    });
+}
+
+function searchSections() {
+    const query = document.getElementById('searchBox').value.toLowerCase().trim();
+    if (!currentNote) return;
+    renderView(currentNote.contents, currentNote.note_header, query);
+}
+
+function escapeHTML(str) {
+    return str.replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+    })[m]);
+}
+
+// Initialize
+generateButtons();
+    </script>
 </body>
 </html>
