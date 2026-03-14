@@ -3,340 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khaing Myo Lin</title>
+    <title>KML</title>
     <style>
-        /* Ultra minimal styles - no animations, no effects */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* ABSOLUTE MINIMAL - nothing but text and borders */
         body {
+            background: #000;
+            color: #0f0;
             font-family: monospace;
-            background: #0a0f0f;
-            color: #b7ffd6;
-            line-height: 1.4;
-            padding: 10px;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: #0a0f0f;
-            border: 1px solid #2affb6;
-            padding: 15px;
-        }
-
-        /* No animations, no transitions, no effects */
-        .terminal-line {
-            margin-bottom: 20px;
-        }
-
-        .prompt {
-            color: #ff2a6d;
-            display: inline;
-        }
-
-        .prompt-success {
-            color: #2affb6;
-            display: inline;
-        }
-
-        .command {
-            color: #ffd166;
-            display: inline;
-        }
-
-        .output {
-            margin-left: 20px;
-            margin-top: 5px;
-            padding: 10px;
-            border-left: 2px solid #2affb6;
-            background: #0f1414;
-        }
-
-        /* Static badges - no hover effects */
-        .badge {
-            display: inline-block;
-            padding: 2px 8px;
-            margin: 2px;
-            border: 1px solid #2affb6;
-            background: #0f1414;
-            color: #2affb6;
-            font-size: 12px;
-        }
-
-        .badge-danger {
-            border-color: #ff2a6d;
-            color: #ff2a6d;
-        }
-
-        .badge-warning {
-            border-color: #ffd166;
-            color: #ffd166;
-        }
-
-        /* Simple grid */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        /* Static cards */
-        .link-card {
-            border: 1px solid #2affb6;
-            padding: 10px;
-            text-align: center;
-            background: #0f1414;
-        }
-
-        .link-card a {
-            color: #2affb6;
-            text-decoration: none;
-            display: block;
             font-size: 14px;
+            line-height: 1.3;
+            margin: 5px;
+            padding: 0;
         }
-
-        .link-card small {
-            display: block;
-            color: #b7ffd6;
-            font-size: 11px;
-            opacity: 0.7;
-        }
-
-        /* Simple title - no effects */
-        .glitch-text {
-            font-size: 28px;
-            font-weight: bold;
-            color: #2affb6;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #ff2a6d;
-            padding-bottom: 5px;
-        }
-
-        /* No animations */
-        .cursor-blink {
-            display: inline-block;
-            width: 8px;
-            height: 15px;
-            background: #2affb6;
-            margin-left: 3px;
-        }
-
-        .status-bar {
-            background: #0f1414;
-            border: 1px solid #2affb6;
-            padding: 5px 10px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-        }
-
-        .status-led {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #2affb6;
-            margin-right: 3px;
-        }
-
-        .skill-group {
-            margin-bottom: 15px;
-        }
-
-        .skill-group strong {
-            display: block;
-            color: #ffd166;
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-
-        .bullet-item {
-            margin-bottom: 3px;
-            padding-left: 10px;
-            border-left: 2px solid #ff2a6d;
-            font-size: 13px;
-        }
-
-        .footer {
-            margin-top: 20px;
-            color: #2affb6;
-            font-size: 11px;
-            opacity: 0.5;
-            border-top: 1px solid #2affb6;
-            padding-top: 10px;
-            text-align: right;
-        }
-
-        /* Remove all pseudo-elements, animations, transitions */
-        .container::before,
-        .container::after,
-        .link-card::before,
-        .link-card::after {
-            display: none;
-        }
-
-        /* Minimal scrollbar */
-        ::-webkit-scrollbar {
-            width: 5px;
-        }
+        .c { max-width: 900px; margin: 0 auto; }
+        .p { color: #f0f; }
+        .s { color: #0f0; }
+        .cmd { color: #ff0; }
+        .out { margin-left: 15px; padding: 5px 0 5px 10px; border-left: 1px solid #0f0; }
+        .b { display: inline-block; border: 1px solid #0f0; padding: 1px 5px; margin: 1px; font-size: 12px; }
+        .br { border-color: #f0f; color: #f0f; }
+        .by { border-color: #ff0; color: #ff0; }
+        .grid { display: flex; gap: 5px; flex-wrap: wrap; }
+        .card { border: 1px solid #0f0; padding: 5px; }
+        .card a { color: #0f0; text-decoration: none; }
+        hr { border: none; border-top: 1px solid #0f0; margin: 10px 0; opacity: 0.3; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Status Bar -->
-        <div class="status-bar">
-            <span><span class="status-led"></span>SYSTEM:ACTIVE</span>
-            <span>LEVEL:ELITE</span>
-        </div>
+<div class="c">
 
-        <!-- Title -->
-        <div class="glitch-text">>_ KHAING MYO LIN</div>
-
-        <!-- whoami -->
-        <div class="terminal-line">
-            <div>
-                <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]</span>
-            </div>
-            <div>
-                <span class="prompt">└─$</span> <span class="command">whoami</span>
-            </div>
-            <div class="output">
-                <div style="color:#ff2a6d; margin-bottom:5px;">Khaing Myo Lin</div>
-                <div>
-                    <span class="badge">boboaung1337</span>
-                    <span class="badge badge-warning">BSc</span>
-                    <span class="badge badge-danger">Elite</span>
-                    <span class="badge">HTB</span>
-                    <span class="badge badge-danger">CPTS</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- bio -->
-        <div class="terminal-line">
-            <div>
-                <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]</span>
-            </div>
-            <div>
-                <span class="prompt">└─$</span> <span class="command">cat bio</span>
-            </div>
-            <div class="output">
-                ⚡ Web/Network/Mobile Pentester
-            </div>
-        </div>
-
-        <!-- creds -->
-        <div class="terminal-line">
-            <div>
-                <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]</span>
-            </div>
-            <div>
-                <span class="prompt">└─$</span> <span class="command">ls -la</span>
-            </div>
-            <div class="output">
-                <div class="skill-group">
-                    <strong>EDUCATION</strong>
-                    <div class="bullet-item">BSc Cybersecurity</div>
-                </div>
-                <div class="skill-group">
-                    <strong>CERT</strong>
-                    <div class="bullet-item">HTB CPTS 2026</div>
-                </div>
-                <div class="skill-group">
-                    <strong>LABS</strong>
-                    <div class="bullet-item">Mythical Pro Lab</div>
-                    <div class="bullet-item">Puppet Pro Lab</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- skills -->
-        <div class="terminal-line">
-            <div>
-                <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]</span>
-            </div>
-            <div>
-                <span class="prompt">└─$</span> <span class="command">skills</span>
-            </div>
-            <div class="output">
-                <div class="skill-group">
-                    <strong>SKILLS</strong>
-                    <div>
-                        <span class="badge badge-danger">SQLi</span>
-                        <span class="badge badge-danger">LFI</span>
-                        <span class="badge badge-danger">AD</span>
-                        <span class="badge badge-danger">Network</span>
-                    </div>
-                </div>
-                <div class="skill-group">
-                    <strong>TOOLS</strong>
-                    <div>
-                        <span class="badge badge-warning">ADModule</span>
-                        <span class="badge badge-warning">Burp</span>
-                        <span class="badge badge-warning">Nmap</span>
-                        <span class="badge badge-warning">MSF</span>
-                    </div>
-                </div>
-                <div class="skill-group">
-                    <strong>LANG</strong>
-                    <div>
-                        <span class="badge">Python</span>
-                        <span class="badge">PHP</span>
-                        <span class="badge">JS</span>
-                        <span class="badge">SQL</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- links -->
-        <div class="terminal-line">
-            <div>
-                <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]</span>
-            </div>
-            <div>
-                <span class="prompt">└─$</span> <span class="command">links</span>
-            </div>
-            <div class="output">
-                <div class="grid">
-                    <div class="link-card">
-                        <a href="https://profile.hackthebox.com/profile/019c3c91-9303-7374-a10e-22d32ab523fa">HTB</a>
-                        <small>profile</small>
-                    </div>
-                    <div class="link-card">
-                        <a href="https://www.linkedin.com/in/khaingmyolin1337/">LinkedIn</a>
-                        <small>khaingmyolin1337</small>
-                    </div>
-                    <div class="link-card">
-                        <a href="https://x.com/KhaingMyoLin8">X</a>
-                        <small>@KhaingMyoLin8</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- exit -->
-        <div class="terminal-line">
-            <div>
-                <span class="prompt">┌──[</span><span class="prompt-success">boboaung1337@htb</span><span class="prompt">]</span>
-            </div>
-            <div>
-                <span class="prompt">└─$</span> <span class="command">exit</span>
-            </div>
-            <div class="output" style="border-left-color:#ff2a6d;">
-                <span style="color:#ff2a6d;">Access Granted</span>
-                <span class="cursor-blink"></span>
-            </div>
-        </div>
-
-        <!-- footer -->
-        <div class="footer">
-            [SECURE] [0x1337]
-        </div>
+<!-- header -->
+<div><span class="p">┌──[</span><span class="s">boboaung1337</span><span class="p">]</span></div>
+<div><span class="p">└─$</span> <span class="cmd">whoami</span></div>
+<div class="out">
+    <div style="color:#f0f">Khaing Myo Lin</div>
+    <div>
+        <span class="b">boboaung1337</span>
+        <span class="b by">BSc</span>
+        <span class="b br">CPTS</span>
+        <span class="b">HTB</span>
     </div>
+</div>
+
+<!-- bio -->
+<div><span class="p">┌──[</span><span class="s">boboaung1337</span><span class="p">]</span></div>
+<div><span class="p">└─$</span> <span class="cmd">bio</span></div>
+<div class="out">Web/Network/Mobile Pentester</div>
+
+<!-- education -->
+<div><span class="p">┌──[</span><span class="s">boboaung1337</span><span class="p">]</span></div>
+<div><span class="p">└─$</span> <span class="cmd">ls -la</span></div>
+<div class="out">
+    <div>▶ BSc Cybersecurity</div>
+    <div>▶ HTB CPTS (2026)</div>
+    <div>▶ Mythical Pro Lab</div>
+    <div>▶ Puppet Pro Lab</div>
+</div>
+
+<!-- skills -->
+<div><span class="p">┌──[</span><span class="s">boboaung1337</span><span class="p">]</span></div>
+<div><span class="p">└─$</span> <span class="cmd">skills</span></div>
+<div class="out">
+    <div>
+        <span class="b br">SQLi</span>
+        <span class="b br">LFI</span>
+        <span class="b br">AD</span>
+        <span class="b br">Network</span>
+    </div>
+    <div style="margin-top:5px">
+        <span class="b by">Burp</span>
+        <span class="b by">Nmap</span>
+        <span class="b by">MSF</span>
+    </div>
+    <div style="margin-top:5px">
+        <span class="b">Python</span>
+        <span class="b">PHP</span>
+        <span class="b">JS</span>
+    </div>
+</div>
+
+<!-- links -->
+<div><span class="p">┌──[</span><span class="s">boboaung1337</span><span class="p">]</span></div>
+<div><span class="p">└─$</span> <span class="cmd">links</span></div>
+<div class="out">
+    <div class="grid">
+        <div class="card"><a href="https://profile.hackthebox.com/profile/019c3c91-9303-7374-a10e-22d32ab523fa">HTB</a></div>
+        <div class="card"><a href="https://www.linkedin.com/in/khaingmyolin1337/">LI</a></div>
+        <div class="card"><a href="https://x.com/KhaingMyoLin8">X</a></div>
+    </div>
+</div>
+
+<!-- exit -->
+<div><span class="p">┌──[</span><span class="s">boboaung1337</span><span class="p">]</span></div>
+<div><span class="p">└─$</span> <span class="cmd">exit</span></div>
+<div class="out" style="border-left-color:#f0f">
+    <span style="color:#f0f">Access Granted</span>
+</div>
+
+<hr>
+<div style="text-align:right; opacity:0.3; font-size:11px">[0x1337]</div>
+
+</div>
 </body>
 </html>
