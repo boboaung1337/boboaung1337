@@ -1,5 +1,5 @@
 
-#  Hi, I'm b0b0aung
+#  Hi, I'm Khaing Myo LIn
 
 ##  About Me
 -  I'm currently working on various projects
