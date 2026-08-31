@@ -46,14 +46,6 @@ I'm a **Penetration Tester** passionate about cybersecurity, red teaming, and fi
 
 ---
 
-##  GitHub Stats
-
-![b0b0aung's GitHub stats](https://github-readme-stats.vercel.app/api?username=b0b0aung&show_icons=true&theme=dark&hide_border=true)
-
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=b0b0aung&layout=compact&theme=dark&hide_border=true)](https://github.com/b0b0aung)
-
----
-
 ##  Let's Connect
 
 -  [LinkedIn](https://www.linkedin.com/in/khaingmyolin1337)
