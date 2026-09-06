@@ -37,14 +37,6 @@ I'm a **Penetration Tester** passionate about cybersecurity, red teaming, and fi
 
 ---
 
-##  Recent Activities
-
--  Testing Sliver C2 against Windows 11 environments
--  Exploring Active Directory attack paths
--  Writing research on Kerberos delegation abuse
--  Building custom automation scripts for pentesting
-
----
 
 ##  Let's Connect
 
