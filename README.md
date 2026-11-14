@@ -29,8 +29,6 @@ I'm a **Penetration Tester** passionate about cybersecurity, red teaming, and fi
 
 ##  Let's Connect
 
--  [LinkedIn](https://www.linkedin.com/in/khaingmyolin1337)
--  [GitHub](https://github.com/b0b0aung)
 -  Reach out for collaboration or just to chat about infosec!
 
 ---
