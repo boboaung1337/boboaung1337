@@ -13,17 +13,6 @@ I'm a **Penetration Tester** passionate about cybersecurity, red teaming, and fi
 -  Pursuing Bachelor of Cybersecurity at Coventry University
 -  Based in Singapore
 
----
-
-##  My Arsenal
-
-| Category | Tools & Skills |
-|----------|----------------|
-| **Penetration Testing** | Metasploit, Cobalt Strike, Sliver C2, BloodHound, NetExec |
-| **Active Directory** | Kerberos attacks, LLMNR/NBT-NS poisoning, Pass-the-Hash, Golden Ticket |
-| **Programming** | Python, Shell Scripting, PowerShell, PHP |
-| **Operating Systems** | Kali Linux, Windows, Parrot OS |
-| **Cloud** | Azure, AWS (basic) |
 
 ---
 
